@@ -1,0 +1,5 @@
+build
+./project_package/__pycache__
+__pycache__
+db_config.py
+python_demo.egg-info

@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-python-project
+  labels:
+    app: python_project
+spec:
+  containers:
+    - name: mysql-container
+      image: mysql:latest # Specify the desired MySQL version or tag
+      env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: password  # Set your desired MySQL root password here
+        - name: MYSQL_DATABASE
+          value: my_db  # Specify the name of the database you want to create
+    - name: my-python-container
+      image: rahulkumarpaswan/my_python_app:1.0  # Replace with your Flask app image and version
+      ports:
+        - containerPort: 3000  # Port on which your Flask app listens
+      env:
+        - name: MYSQL_HOST
+          value: my-python-service  # Use 'localhost' as the MySQL host since both containers are in the same pod
+        - name: MYSQL_USER
+          value: root
+        - name: MYSQL_PASSWORD
+          value: password  # Set the same password as in the MySQL container
+        - name: MYSQL_DB
+          value: my_db  # Specify the same database name as in the MySQL container

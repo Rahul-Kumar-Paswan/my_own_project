@@ -1,0 +1,30 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:latest # Specify the desired version or tag for MySQL
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: my_db
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  my_python_app:
+    build:
+      context: .
+      dockerfile: Dockerfile  # Path to your Dockerfile for the Flask application
+    image: my_python_app:1.0  # Specify the desired version or tag for Flask app
+    ports:
+      - 3000:3000
+    depends_on:
+      - mysql
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: password
+      MYSQL_DB: my_db
+
+volumes:
+  mysql_data:

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Hello, {{ username }}</h2>
+        <!-- Dashboard content goes here -->
+
+        <!-- Add a logout button -->
+        <form method="POST" action="/logout">
+            <button type="submit">Logout</button>
+        </form>
+
+        <!-- JavaScript to control browser history -->
+        <script>
+            // Check if the user is not authenticated (logged out)
+            if ("{{ username }}" === "") {
+                // Clear the browser's history and redirect to the login page
+                window.history.pushState(null, null, "/login");
+                window.addEventListener('popstate', function () {
+                    window.history.pushState(null, null, "/login");
+                });
+            }
+        </script>
+    </div>
+</body>
+</html>
